@@ -143,3 +143,5 @@ reported. This is a decision-analysis demonstration, not a deployment recommenda
 
 See [executed checks and limits](docs/VALIDATION.md) and [result provenance](RESULTS_PROVENANCE.md).
 After a completed data run, `Rscript verify_results.R outputs` checks the frozen **computed** reference; it does not fit or tune a model.
+
+`report_summary.R outputs` derives the rounded recall/AUC statement from one set of held-out predictions and verifies it against `metrics.csv`. `run_all.R` invokes it automatically, so wording and exact metrics share the same evaluation.

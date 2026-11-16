@@ -8,3 +8,5 @@ Verified on 2026-11-16 with R 4.5.3.
 - The app test executed prediction from named inputs and optional clustering using the saved model. It did not retrain a model per visitor.
 
 Full raw-table regeneration was only fixture-tested because the complete raw sources were not supplied. These tests do not establish natural-prevalence or operational performance.
+
+A fresh supplied-data execution again reproduced all ten stored RF metrics/counts exactly. `report_summary.R` recalculates them from prediction records before emitting rounded recall/AUC wording.

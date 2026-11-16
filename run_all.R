@@ -4,6 +4,7 @@ if (!length(args)) stop("Usage: Rscript run_all.R Balanced_Processed.csv [output
 input <- normalizePath(args[1], mustWork = TRUE)
 out <- if (length(args) > 1) args[2] else "outputs"
 dir.create(out, recursive = TRUE, showWarnings = FALSE); out <- normalizePath(out)
+if (!dir.exists(out)) stop("Output must be a directory; customers.csv is the third argument.")
 rscript <- file.path(R.home("bin"), "Rscript")
 run <- function(script, ...) {
   code <- system2(rscript, shQuote(c(script, ...)))
@@ -12,6 +13,7 @@ run <- function(script, ...) {
 run("tests.R")
 run("eda.R", input, out)
 run("train.R", input, out)
+run("report_summary.R", out)
 run("baseline.R", input, out)
 run("plot.R", out)
 run("evaluation.R", out)
