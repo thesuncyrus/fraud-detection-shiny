@@ -1,0 +1,2 @@
+"accuracy","recall","precision","specificity","f1","auc","true_positive","true_negative","false_positive","false_negative"
+0.8544,0.846933333333333,0.859772604223064,0.861866666666667,0.853304674905965,0.919068017777778,3176,3232,518,574

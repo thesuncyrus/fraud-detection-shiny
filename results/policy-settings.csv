@@ -1,0 +1,4 @@
+"fn_to_fp_cost","selected_threshold","validation_cost"
+1,0.56,485
+5,0.2,1090
+10,0.1,1374

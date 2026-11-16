@@ -1,0 +1,17 @@
+# Rscript plot.R outputs
+args <- commandArgs(trailingOnly = TRUE)
+out <- if (length(args)) args[1] else "outputs"
+m <- read.csv(file.path(out, "metrics.csv"))
+svg(file.path(out, "fraud-confusion.svg"), width = 7, height = 4.4, bg = "#faf9f6")
+par(mar = c(1, 1, 1, 1), family = "sans")
+plot.new()
+plot.window(xlim = c(0, 3), ylim = c(0, 3))
+for (i in 1:2) for (j in 1:2) rect(i - .85, j - .85, i - .05, j - .05, col = if (i == j) "#e1e9e8" else "#f0e3da", border = "white")
+text(c(.55, 1.55), 2.4, c("Actual legitimate", "Actual fraud"), cex = 1)
+text(.55, 1.55, format(m$false_positive, big.mark = ","), cex = 2, col = "#8c5537")
+text(1.55, 1.55, format(m$true_positive, big.mark = ","), cex = 2, col = "#243f50")
+text(.55, .55, format(m$true_negative, big.mark = ","), cex = 2, col = "#243f50")
+text(1.55, .55, format(m$false_negative, big.mark = ","), cex = 2, col = "#8c5537")
+text(2.5, 1.55, "Flagged", cex = 1)
+text(2.5, .55, "Not flagged", cex = 1)
+dev.off()
