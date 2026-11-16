@@ -1,22 +1,21 @@
+# Historical raw-table preparation; requires the original table column ordering.
+# Not rerun: complete raw inputs are unavailable.
 # setting directory
-setwd("C:/Users/Owner/Desktop/College/Spring 2025/MGMT 389/Financial Transactions Dataset")
+args <- commandArgs(trailingOnly=TRUE)
+if (!length(args)) stop("Supply the authorized raw-table folder.")
+setwd(normalizePath(args[1],mustWork=TRUE))
 
 # reading in CSVs
 cd = read.csv("cards_data.csv", header = T, sep = ",")
 td = read.csv("transactions_data.csv", header = T, sep = ",") # will take a while
 ud = read.csv("users_data.csv", header = T, sep = ",")
 
-# install.packages("jsonlite")
 library(jsonlite)
 # reading in JSON files
 mcc = fromJSON("mcc_codes.json")
-## mcc
 labels = fromJSON("train_fraud_labels.json") # will take a while
-## labels
 
 # checking length of transaction data and labels
-length(labels$target)
-nrow(td)
 
 # coverting json data to df
 labels_df <- data.frame(id = names(labels), label = unlist(labels))
@@ -31,8 +30,6 @@ labels_df$id = sapply(strsplit(labels_df$id, "\\."), function(x) {
   }
 })
 
-head(labels_df)
-anyNA(labels_df)
 
 
 library(sqldf)
@@ -44,7 +41,6 @@ td_label = sqldf(
 
 yes = td_label[td_label$label == "Yes", ]
 no = td_label[td_label$label == "No", ]
-nrow(yes)
 set.seed(123)
 sample_yes = yes[sample(nrow(yes), 12500), ]
 sample_no = no[sample(nrow(no), 12500), ]
@@ -58,10 +54,8 @@ balanced_processed = sqldf("
                           INNER JOIN cd ON temp.card_id = cd.id"
 ) 
 
-nrow(balanced_processed)
 
 balanced_processed = balanced_processed[, c(27, 15, 2, 6, 11:14, 19, 20, 26, 37)]
-head(balanced_processed)
 
 balanced_processed$yearly_income <- gsub("\\$", "", balanced_processed$yearly_income)
 balanced_processed$yearly_income <- as.numeric(balanced_processed$yearly_income)
@@ -72,7 +66,6 @@ balanced_processed$amount <- as.numeric(balanced_processed$amount)
 balanced_processed$credit_limit <- gsub("\\$", "", balanced_processed$credit_limit)
 balanced_processed$credit_limit <- as.numeric(balanced_processed$credit_limit)
 
-str(balanced_processed)
 
 balanced_processed$errors = ifelse(balanced_processed$errors == "", "No", "Yes")
 
@@ -84,6 +77,3 @@ balanced_processed$use_chip = as.factor(balanced_processed$use_chip)
 balanced_processed$errors = as.factor(balanced_processed$errors)
 
 write.table(balanced_processed, file = "Balanced_Processed.csv", sep = ',', row.names = F)
-
-
-

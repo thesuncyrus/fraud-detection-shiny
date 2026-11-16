@@ -1,9 +1,0 @@
-name: fraud-detection-shiny
-channels:
-  - conda-forge
-dependencies:
-  - r-base=4.5.3
-  - r-randomforest
-  - r-shiny
-  - r-ggplot2
-  - r-jsonlite

@@ -1,2 +1,7 @@
-"accuracy","recall","precision","specificity","f1","auc","true_positive","true_negative","false_positive","false_negative"
-0.8544,0.846933333333333,0.859772604223064,0.861866666666667,0.853304674905965,0.919068017777778,3176,3232,518,574
+"metric","value","status"
+"accuracy",0.854533333333333,"reproduced"
+"recall",0.8504,"reproduced"
+"precision",0.857488572196827,"reproduced"
+"specificity",0.858666666666667,"reproduced"
+"f1",0.85392957557906,"reproduced"
+"roc_auc",0.918574222222223,"reproduced"
