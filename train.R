@@ -8,7 +8,7 @@ if (!requireNamespace("randomForest", quietly = TRUE)) stop("Install randomFores
 d <- read.csv(args[1], stringsAsFactors = FALSE, check.names = FALSE)
 stopifnot("label" %in% names(d), !anyNA(d$label), all(d$label %in% c("No", "Yes")))
 # Transaction identifiers are excluded from all predictors.
-if ("id" %in% names(d) && anyDuplicated(d$id)) stop("Duplicate transaction IDs found.")
+if ("id" %in% names(d) && (anyNA(d$id) || anyDuplicated(d$id))) stop("Missing or duplicate transaction IDs found.")
 y <- factor(d$label, levels = c("No", "Yes"))
 p <- stratified_split(y)
 schema <- fit_schema(d[p$train, ])

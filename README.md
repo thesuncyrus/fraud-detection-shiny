@@ -1,5 +1,10 @@
 # fRaud
 
+**Review guide:** [Data and complete run command](DATA_SETUP.md) · [Result provenance](RESULTS_PROVENANCE.md) · [Source/contribution map](docs/WORKFLOW.md).
+
+The complete executable route is `run_all.R`; `setup.R` installs its R dependencies. Original sources remain available with attribution. New robustness/comparator analyses are identified separately from original project results.
+
+
 An R random forest workflow and Shiny application for transaction classification and
 interactive customer segmentation. Original collaborative project: Purdue University,
 Spring 2025, mentored by Matthew A. Lanham. Team: Allison Spahn, Himanshu Niraj Sethia,
@@ -133,3 +138,8 @@ reported. This is a decision-analysis demonstration, not a deployment recommenda
 ## Supporting materials
 
 - [Fraud Poster](documents/fraud-poster.pdf)
+
+## Validation
+
+See [executed checks and limits](docs/VALIDATION.md) and [result provenance](RESULTS_PROVENANCE.md).
+After a completed data run, `Rscript verify_results.R outputs` checks the frozen **computed** reference; it does not fit or tune a model.

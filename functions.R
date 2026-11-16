@@ -42,6 +42,7 @@ apply_schema <- function(d, schema) {
 }
 classification_metrics <- function(y, score, threshold = .5) {
   stopifnot(
+    length(y) > 0, length(threshold) == 1, !is.na(threshold),
     length(y) == length(score), !anyNA(y), all(as.character(y) %in% c("No", "Yes")),
     all(is.finite(score)), all(score >= 0 & score <= 1)
   )

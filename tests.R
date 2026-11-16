@@ -30,4 +30,9 @@ c$client_id[1] <- "wrong"
 stopifnot(fails(join_fraud_sources(t, u, c, l)))
 stopifnot(nrow(prepare_legacy_balanced(j, 1)) == 2)
 stopifnot(fails(cluster_customers(data.frame(a = c(1, NA)), c("a", "a"), 2)))
+stopifnot(fails(classification_metrics(character(0), numeric(0))),
+          fails(classification_metrics(c("No", "Yes"), c(.1, .9), c(.4, .5))),
+          fails(classification_metrics(c("No", "Yes"), c(.1, .9), NA_real_)))
+stopifnot(classification_metrics(c("No", "Yes"), c(.1, .9), Inf)["true_positive"] == 0,
+          classification_metrics(c("No", "Yes"), c(.1, .9), -Inf)["recall"] == 1)
 cat("Preparation checks passed: keyed joins, currency parsing, duplicate and ownership guards.\n")
