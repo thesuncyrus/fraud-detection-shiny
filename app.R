@@ -17,7 +17,7 @@ ui <- fluidPage(titlePanel("fRaud — Transaction analysis"),
    actionButton("classify","Evaluate transaction")),mainPanel(
     textOutput("prediction"),p("Forest votes are not calibrated probabilities at natural fraud prevalence."),
     h3("Held-out evaluation"),tableOutput("metrics"),plotOutput("confusion"),plotOutput("importance")))),
-  tabPanel("Customer exploration",p("Original unscaled k-means. Clusters describe similarity, not confirmed fraud."),
+  tabPanel("Customer exploration",p("Unscaled k-means. Clusters describe similarity, not confirmed fraud."),
    selectInput("x","First field",choices,selected="current_age"),
    selectInput("y","Second field",choices,selected="avg_transaction_amount"),
    sliderInput("k","Number of clusters",2,10,3),plotOutput("elbow"),plotOutput("clusters"),tableOutput("means"))))

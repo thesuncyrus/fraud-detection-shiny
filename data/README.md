@@ -1,12 +1,10 @@
-# Private data requirements
-Use an authorized local copy of Balanced_Processed.csv: 25,000 rows, 12,500 No and 12,500 Yes.
-After dropping id, exact column order is label, current_age, gender, yearly_income, total_debt,
-credit_score, num_credit_cards, amount, use_chip, errors, credit_limit. Categorical columns are
-gender, use_chip, errors; their alphabetical factor codes are converted to numbers before splitting,
-as in the original source. No missing fields occur in the supplied balanced file.
+# Analysis datasets
 
-Optional customers.csv contains 307 customer-level numerical summaries for clustering. Never publish
-either file. Processed_Data.csv contains sensitive personal/card-like information and is excluded.
-The original raw-table builder needs cards_data.csv, transactions_data.csv, users_data.csv,
-mcc_codes.json and train_fraud_labels.json. Its exact historical column ordering matters.
-Source redistribution rights are not established; this repository grants no data license.
+- **Balanced_Processed.csv**: 25,000 transactions, evenly divided between No and Yes fraud labels. The model uses the ten customer/transaction predictors after excluding ID.
+- **customers.csv**: 307 customer summaries used by the Shiny clustering interface.
+
+The files are the team’s supplied analysis inputs, with values and row order unchanged. Monetary values are numeric; categorical predictors use the encoding defined in src/fraud_model.R.
+
+Dataset reference: [Financial Transactions Dataset: Analytics](https://www.kaggle.com/datasets/computingvictor/transactions-fraud-datasets), shared by ComputingVictor and credited to Caixabank Tech’s 2024 AI Hackathon. The dataset card lists Apache 2.0. See LICENSE.txt and NOTICE.md.
+
+The large joined raw table and raw card/account fields are not required by the app and are not included. Full raw preparation requires the separately obtained users, cards, transactions, MCC and label source files.

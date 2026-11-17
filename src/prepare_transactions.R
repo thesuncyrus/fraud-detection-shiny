@@ -1,5 +1,5 @@
-# Historical raw-table preparation; requires the original table column ordering.
-# Not rerun: complete raw inputs are unavailable.
+# Join and prepare raw transaction, customer and card tables.
+# Requires the raw source tables listed below.
 # setting directory
 args <- commandArgs(trailingOnly=TRUE)
 if (!length(args)) stop("Supply the authorized raw-table folder.")

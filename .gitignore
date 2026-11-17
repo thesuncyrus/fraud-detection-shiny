@@ -1,5 +1,9 @@
 data/*
 !data/README.md
+!data/Balanced_Processed.csv
+!data/customers.csv
+!data/LICENSE.txt
+!data/NOTICE.md
 outputs/
 artifacts/
 *.rds

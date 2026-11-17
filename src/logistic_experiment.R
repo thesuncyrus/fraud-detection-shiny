@@ -1,4 +1,4 @@
-# Original logistic experiment: retain ID as a predictor for historical fidelity.
+# Logistic experiment includes ID as a predictor.
 # This differs from the final Random Forest feature set; it is not a matched-feature benchmark.
 args <- commandArgs(trailingOnly=TRUE)
 if (!length(args)) stop("Supply the authorized Balanced_Processed.csv file.")

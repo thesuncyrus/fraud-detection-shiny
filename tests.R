@@ -1,7 +1,7 @@
-# Meaningful checks for the corrected Shiny field mapping and historical fit.
+# Check input encoding, fitted results and Shiny predictions.
 source("src/fraud_model.R")
 path <- Sys.getenv("FRAUD_MODEL_PATH","outputs/model.rds")
-if(!file.exists(path)) stop("Train the historical model before running this integration check.")
+if(!file.exists(path)) stop("Train the model before running this integration check.")
 b <- readRDS(path)
 values <- as.list(b$defaults)
 for(n in names(b$levels)) values[[n]] <- b$levels[[n]][1]

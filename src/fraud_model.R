@@ -1,12 +1,12 @@
-# Historical transaction classifier: preserve column order, encoding and RNG order.
+# Transaction classifier with explicit column order, encoding and random seed.
 read_transactions <- function(path) {
   if (!file.exists(path)) stop("Supply an authorized Balanced_Processed.csv.")
   d <- read.csv(path, stringsAsFactors = FALSE)
   expected <- c("label", "current_age", "gender", "yearly_income", "total_debt",
                 "credit_score", "num_credit_cards", "amount", "use_chip", "errors", "credit_limit")
   d$id <- NULL
-  if (!identical(names(d), expected)) stop("Columns/order differ from the historical input contract.")
-  if (anyNA(d)) stop("Missing values were not part of the supplied historical input.")
+  if (!identical(names(d), expected)) stop("Columns/order differ from the input schema.")
+  if (anyNA(d)) stop("Missing values were not part of the input data.")
   if (!setequal(unique(d$label), c("No", "Yes"))) stop("Expected No/Yes labels.")
   d$label <- as.factor(d$label)
   categories <- names(d)[vapply(d, is.character, logical(1))]
@@ -14,7 +14,7 @@ read_transactions <- function(path) {
   for (name in categories) d[[name]] <- as.numeric(as.factor(d[[name]]))
   list(data=d, levels=levels)
 }
-fit_historical_forest <- function(path) {
+fit_forest <- function(path) {
   for (pkg in c("caret", "randomForest", "pROC"))
     if (!requireNamespace(pkg, quietly=TRUE)) stop(paste("Install", pkg))
   input <- read_transactions(path)
