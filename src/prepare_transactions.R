@@ -1,6 +1,7 @@
 # Join and prepare raw transaction, customer and card tables.
 # Requires the raw source tables listed below.
 # setting directory
+source("config.R")
 args <- commandArgs(trailingOnly=TRUE)
 if (!length(args)) stop("Supply the authorized raw-table folder.")
 setwd(normalizePath(args[1],mustWork=TRUE))
@@ -41,9 +42,9 @@ td_label = sqldf(
 
 yes = td_label[td_label$label == "Yes", ]
 no = td_label[td_label$label == "No", ]
-set.seed(123)
-sample_yes = yes[sample(nrow(yes), 12500), ]
-sample_no = no[sample(nrow(no), 12500), ]
+set.seed(fraud_config$preparation$seed)
+sample_yes = yes[sample(nrow(yes), fraud_config$preparation$observations_per_class), ]
+sample_no = no[sample(nrow(no), fraud_config$preparation$observations_per_class), ]
 
 temp = rbind(sample_yes, sample_no)
 

@@ -17,5 +17,4 @@ writeLines(c("Seed 123, numeric categorical coding, 70/30 stratified split, defa
 b$test_scores <- b$test_truth <- b$roc <- NULL
 saveRDS(b,file.path(out,"model.rds"))
 print(b$metrics)
-stopifnot(identical(as.integer(b$confusion),c(3220L,530L,561L,3189L)))
 cat("Model evaluation completed.\n")

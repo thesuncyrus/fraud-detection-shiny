@@ -1,9 +1,9 @@
 # Transaction classifier with explicit column order, encoding and random seed.
+source("config.R")
 read_transactions <- function(path) {
   if (!file.exists(path)) stop("Supply an authorized Balanced_Processed.csv.")
   d <- read.csv(path, stringsAsFactors = FALSE)
-  expected <- c("label", "current_age", "gender", "yearly_income", "total_debt",
-                "credit_score", "num_credit_cards", "amount", "use_chip", "errors", "credit_limit")
+  expected <- c("label", fraud_config$predictors)
   d$id <- NULL
   if (!identical(names(d), expected)) stop("Columns/order differ from the input schema.")
   if (anyNA(d)) stop("Missing values were not part of the input data.")
@@ -19,12 +19,13 @@ fit_forest <- function(path) {
     if (!requireNamespace(pkg, quietly=TRUE)) stop(paste("Install", pkg))
   input <- read_transactions(path)
   d <- input$data
-  set.seed(123)
-  index <- caret::createDataPartition(d$label, p=.7, list=FALSE)
+  set.seed(fraud_config$forest$seed)
+  index <- caret::createDataPartition(d$label, p=fraud_config$forest$train_fraction, list=FALSE)
   training <- d[index, ]
   test <- d[-index, ]
   # Do not reseed, reorder features or enable importance=TRUE: these alter the fit.
-  forest <- randomForest::randomForest(label ~ ., data=training)
+  forest <- randomForest::randomForest(label ~ ., data=training,
+    ntree=fraud_config$forest$ntree, mtry=fraud_config$forest$mtry)
   predicted <- predict(forest, test, type="response")
   scores <- predict(forest, test, type="prob")[, "Yes"]
   cm <- caret::confusionMatrix(predicted, test$label, positive="Yes")
@@ -54,6 +55,6 @@ cluster_customers <- function(customers, fields, k) {
   if (!all(vapply(d,is.numeric,logical(1))) || anyNA(d)) stop("Use complete numeric fields.")
   if (nrow(unique(d)) < k) stop("Too few distinct observations.")
   # Preserve original units, iteration limit, starts and stochastic interaction.
-  fit <- kmeans(d, centers=k, iter.max=20, nstart=5)
+  fit <- kmeans(d, centers=k, iter.max=fraud_config$clustering$iter.max, nstart=fraud_config$clustering$nstart)
   list(data=d, fit=fit, summary=aggregate(d,list(cluster=fit$cluster),mean))
 }
