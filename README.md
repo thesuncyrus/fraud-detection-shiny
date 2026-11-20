@@ -20,7 +20,7 @@ The model uses 25,000 transactions, balanced between 12,500 fraud and 12,500 leg
 ![Confusion matrix](results/figures/confusion.svg)
 ![Random Forest ROC](results/figures/roc.svg)
 
-Chip usage, transaction amount and credit limit lead the forest's node-impurity importance ranking. The logistic experiment has AUC 0.719259 and accuracy 0.6592. Its formula includes ID, so the two models do not use identical predictor sets.
+Chip usage, transaction amount and credit limit lead the forest's node-impurity importance ranking. The logistic experiment has AUC 0.719259 and accuracy 0.6592. The logistic model includes the transaction ID as a predictor.
 
 ## Run
 ```sh
@@ -31,6 +31,4 @@ Rscript -e "shiny::runApp('.')"
 ```
 The data folder supplies the modeling and customer-analysis inputs. Optional paths can be passed to train.R; FRAUD_MODEL_PATH and FRAUD_CUSTOMERS_PATH configure the app. The raw-table preparation script accepts separate source files when available. Plot dependencies are in requirements-figures.txt.
 
-These scores describe a balanced transaction sample. A random transaction split does not establish future-period or new-customer performance, and forest votes are not calibrated probabilities at natural fraud prevalence. Customer clusters are descriptive; no deployed loss reduction is claimed.
-
-[Portfolio case study](https://chau-nguyen-research.gabledmango1.chatgpt.site/fraud.html)
+[Portfolio case study](https://thesuncyrus.github.io/fraud.html)
